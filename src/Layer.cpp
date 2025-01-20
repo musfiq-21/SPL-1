@@ -7,12 +7,10 @@ namespace neural_autodiff {
         : in_features_(in_features)
         , out_features_(out_features) {
 
-        // Initialize weights using Xavier initialization
         Matrix weight_matrix(out_features, in_features);
         weight_matrix.xavier_init();
         weights_ = Node::make_parameter(weight_matrix);
 
-        // Initialize bias with zeros
         Matrix bias_matrix(out_features, 1);
         bias_matrix.zeros();
         bias_ = Node::make_parameter(bias_matrix);
@@ -23,10 +21,10 @@ namespace neural_autodiff {
             throw std::invalid_argument("Null input to linear layer");
         }
 
-        // checkign input dimensions
         if (input->value_.cols != 1) {
             throw std::invalid_argument("Input must be a column vector");
         }
+
         if (input->value_.rows != in_features_) {
             throw std::invalid_argument("Input features dimension mismatch");
         }

@@ -11,9 +11,8 @@ namespace neural_autodiff {
 
         Matrix result(x->value_.rows, x->value_.cols);
 
-        // Compute ReLU: max(0, x)
-        for (size_t i = 0; i < x->value_.rows; ++i) {
-            for (size_t j = 0; j < x->value_.cols; ++j) {
+        for (int i = 0; i < x->value_.rows; ++i) {
+            for (int j = 0; j < x->value_.cols; ++j) {
                 result.at(i, j) = std::max(0.0, x->value_.at(i, j));
             }
         }
@@ -31,11 +30,9 @@ namespace neural_autodiff {
 
         Matrix result(x->value_.rows, x->value_.cols);
 
-        // Compute sigmoid: 1 / (1 + exp(-x))
-        for (size_t i = 0; i < x->value_.rows; ++i) {
-            for (size_t j = 0; j < x->value_.cols; ++j) {
+        for (int i = 0; i < x->value_.rows; ++i) {
+            for (int j = 0; j < x->value_.cols; ++j) {
                 double val = x->value_.at(i, j);
-                // Clip values to avoid overflow
                 val = std::max(-500.0, std::min(500.0, val));
                 result.at(i, j) = 1.0 / (1.0 + std::exp(-val));
             }
@@ -54,7 +51,6 @@ namespace neural_autodiff {
 
         Matrix result(x->value_.rows, x->value_.cols);
 
-        // (e(x) - e(-x)) / (e(x) + e(-x))
         for (size_t i = 0; i < x->value_.rows; ++i) {
             for (size_t j = 0; j < x->value_.cols; ++j) {
                 double val = x->value_.at(i, j);

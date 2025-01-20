@@ -10,10 +10,17 @@
 
 using namespace neural_autodiff;
 
+double compute_accuracy(const std::vector<Matrix>& predictions, const std::vector<Matrix>& targets) {
+    int correct = 0;
+    for (size_t i = 0; i < predictions.size(); ++i) {
+        bool pred = predictions[i].at(0, 0) >= 0.5;
+        bool target = targets[i].at(0, 0) >= 0.5;
+        if (pred == target) correct++;
+    }
+    return static_cast<double>(correct) / predictions.size();
+}
 
 int main() {
-    // create a larger network
-    // 2 -> 8 -> 8 -> 1
 
     return 0;
 }

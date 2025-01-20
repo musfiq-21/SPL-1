@@ -10,7 +10,8 @@ NodePtr Loss::mse_loss(NodePtr predicted, NodePtr target) {
         throw std::invalid_argument("Null input to MSE loss");
     }
 
-    if (predicted->value_.rows != target->value_.rows ||
+    if (predicted->value_.rows != target->value_.rows
+        or
         predicted->value_.cols != target->value_.cols) {
         throw std::invalid_argument("Dimension mismatch in MSE loss");
     }
@@ -32,12 +33,10 @@ NodePtr Loss::mse_loss(NodePtr predicted, NodePtr target) {
     Matrix result(1, 1);
     result.at(0, 0) = sum_squared_error / static_cast<double>(n);
     
-    auto node = std::make_shared<Node>(result, OpType::INPUT);  // Using INPUT as we don't have a specific loss OpType
+    auto node = std::make_shared<Node>(result, OpType::INPUT);
     node->inputs_.push_back(predicted);
     node->inputs_.push_back(target);
-    
     return node;
 }
-
 
 }
