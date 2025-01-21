@@ -51,8 +51,8 @@ namespace neural_autodiff {
 
         Matrix result(x->value_.rows, x->value_.cols);
 
-        for (size_t i = 0; i < x->value_.rows; ++i) {
-            for (size_t j = 0; j < x->value_.cols; ++j) {
+        for (int i = 0; i < x->value_.rows; ++i) {
+            for (int j = 0; j < x->value_.cols; ++j) {
                 double val = x->value_.at(i, j);
 
                 result.at(i, j) = std::tanh(val);

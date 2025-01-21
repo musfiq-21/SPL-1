@@ -8,15 +8,8 @@
 namespace neural_autodiff {
 
     enum class OpType {
-        INPUT,
-        PARAMETER,
-        ADD,
-        MULTIPLY,
-        MATMUL,
-        TRANSPOSE,
-        RELU,
-        SIGMOID,
-        TANH
+        INPUT,  PARAMETER,  ADD,    MULTIPLY,   MATMUL,
+        TRANSPOSE,  RELU,   SIGMOID,    TANH
     };
 
     class Node {

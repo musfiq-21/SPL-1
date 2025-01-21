@@ -20,7 +20,6 @@ NodePtr Loss::mse_loss(NodePtr predicted, NodePtr target) {
     double sum_squared_error = 0.0;
     size_t n = predicted->value_.rows * predicted->value_.cols;
 
-    // Compute (predicted - target)^2
     for (size_t i = 0; i < predicted->value_.rows; ++i) {
         for (size_t j = 0; j < predicted->value_.cols; ++j) {
             double diff = predicted->value_.at(i, j) - target->value_.at(i, j);
@@ -28,7 +27,6 @@ NodePtr Loss::mse_loss(NodePtr predicted, NodePtr target) {
             sum_squared_error += diff * diff;
         }
     }
-
 
     Matrix result(1, 1);
     result.at(0, 0) = sum_squared_error / static_cast<double>(n);

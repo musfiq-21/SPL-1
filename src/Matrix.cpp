@@ -36,6 +36,7 @@ Matrix Matrix::multiply(const Matrix& a, const Matrix& b) {
     return result;
 }
 
+
 Matrix Matrix::transpose(const Matrix& a) {
     Matrix result(a.cols, a.rows);
 

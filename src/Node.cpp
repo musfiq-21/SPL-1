@@ -30,7 +30,6 @@ namespace neural_autodiff {
         Matrix result = Matrix::multiply(a->value_, b->value_);
         auto node = std::make_shared<Node>(result, OpType::MATMUL);
 
-        // Store input nodes for backward pass
         node->inputs_.push_back(a);
         node->inputs_.push_back(b);
 
@@ -49,7 +48,6 @@ namespace neural_autodiff {
         Matrix result = Matrix::add(a->value_, b->value_);
         auto node = std::make_shared<Node>(result, OpType::ADD);
 
-        // Store input nodes for backward pass
         node->inputs_.push_back(a);
         node->inputs_.push_back(b);
 

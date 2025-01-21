@@ -16,7 +16,7 @@ namespace neural_autodiff {
 
     class LinearLayer : public Layer {
     public:
-        LinearLayer(size_t in_features, size_t out_features);
+        LinearLayer(int in_features, int out_features);
         NodePtr forward(NodePtr input) override;
         std::vector<NodePtr> parameters() const override;
         void zero_grad() override;

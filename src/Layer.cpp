@@ -3,7 +3,7 @@
 
 namespace neural_autodiff {
 
-    LinearLayer::LinearLayer(size_t in_features, size_t out_features)
+    LinearLayer::LinearLayer(int in_features, int out_features)
         : in_features_(in_features)
         , out_features_(out_features) {
 

@@ -3,7 +3,6 @@
 #include <stdexcept>
 
 namespace neural_autodiff {
-    // Base Optimizer Implementation
     Optimizer::Optimizer(const std::vector<NodePtr>& parameters, double learning_rate)
         : parameters_(parameters)
         , learning_rate_(learning_rate) {
@@ -26,19 +25,19 @@ namespace neural_autodiff {
         }
 
         velocities_.resize(parameters.size());
-        for (size_t i = 0; i < parameters.size(); ++i) {
+        for (int i = 0; i < parameters.size(); ++i) {
             velocities_[i].resize(parameters[i]->value_.rows * parameters[i]->value_.cols, 0.0);
         }
     }
 
     void Gradient_Descent::step() {
-        for (size_t i = 0; i < parameters_.size(); ++i) {
+        for (int i = 0; i < parameters_.size(); ++i) {
             auto& param = parameters_[i];
             auto& velocity = velocities_[i];
 
-            size_t idx = 0;
-            for (size_t row = 0; row < param->value_.rows; ++row) {
-                for (size_t col = 0; col < param->value_.cols; ++col) {
+            int idx = 0;
+            for (int row = 0; row < param->value_.rows; ++row) {
+                for (int col = 0; col < param->value_.cols; ++col) {
                     // Update velocity
                     velocity[idx] = momentum_ * velocity[idx] + learning_rate_ * param->grad_.at(row, col);
 
