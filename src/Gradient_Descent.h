@@ -1,6 +1,3 @@
-//
-// Created by musfiq on 1/19/25.
-//
 
 #ifndef OPTIMIZER_H
 #define OPTIMIZER_H
@@ -8,27 +5,11 @@
 
 namespace neural_autodiff {
 
-    class Optimizer {
+    class Gradient_Descent {
     public:
-        Optimizer(const std::vector<NodePtr>& parameters, double learning_rate);
-        virtual void step() = 0;
-        virtual void zero_grad();
+        Gradient_Descent(const std::vector<NodePtr>& parameters, double learning_rate);
+        //void step();
 
-    protected:
-        std::vector<NodePtr> parameters_;
-        double learning_rate_;
-    };
-
-    class Gradient_Descent : public Optimizer {
-    public:
-        Gradient_Descent(const std::vector<NodePtr>& parameters,
-            double learning_rate,
-            double momentum = 0.9);
-        void step() override;
-
-    private:
-        double momentum_;
-        std::vector<std::vector<double>> velocities_;
     };
 
 }
