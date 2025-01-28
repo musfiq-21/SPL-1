@@ -1,6 +1,5 @@
 #include "LossFunction.h"
 #include <cmath>
-#include <iostream>
 #include <stdexcept>
 #include <numeric>
 
@@ -11,11 +10,14 @@ NodePtr Loss::mse_loss(NodePtr predicted, NodePtr target) {
         throw std::invalid_argument("Null input to MSE loss");
     }
 
-    if (predicted->value_.rows != target->value_.rows or predicted->value_.cols != target->value_.cols){
-        std::cout <<"YO"<< predicted->value_.rows << " "<< target->value_.rows << std::endl;
-        std::cout <<"YO"<< predicted->value_.cols << " "<< target->value_.cols << std::endl;
+    if (predicted->value_.rows != target->value_.rows
+        or
+        predicted->value_.cols != target->value_.cols
+        )
 
-        throw std::invalid_argument("Dimension mismatch in MSE loss ");
+        {
+
+        throw std::invalid_argument("Dimension mismatch in MSE loss");
     }
 
     Matrix diff_matrix(predicted->value_.rows, predicted->value_.cols);
@@ -31,8 +33,8 @@ NodePtr Loss::mse_loss(NodePtr predicted, NodePtr target) {
     }
 
     Matrix result(1, 1);
+    result.at(0, 0) = sum_squared_error / static_cast<double>(n);
 
-    result.at(0, 0) = sum_squared_error/n;
     auto node = std::make_shared<Node>(result, OpType::INPUT);
     node->inputs_.push_back(predicted);
     node->inputs_.push_back(target);
@@ -44,22 +46,15 @@ NodePtr Loss::mse_loss_prime(NodePtr predicted, NodePtr target) {
         throw std::invalid_argument("Null pointer in MSE loss prime");
     }
 
-    if (predicted->value_.rows != target->value_.rows or predicted->value_.cols != target->value_.cols){
+    if (predicted->value_.rows != target->value_.rows
+        or
+        predicted->value_.cols != target->value_.cols
+        )
+
+    {
+
         throw std::invalid_argument("Dimension mismatch in MSE loss prime");
     }
-
-    int rows = predicted->value_.rows;
-    int cols = predicted->value_.cols;
-    Matrix grad_matrix(rows, cols);
-    auto result = std::make_shared<Node>(grad_matrix, OpType::INPUT);
-
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            result->value_.at(i, j) = 2 * (predicted->value_.at(i, j) - target->value_.at(i, j)) / (rows * cols);
-        }
-    }
-
-    return result;
 }
 
 }
