@@ -1,4 +1,5 @@
 #include <functional>
+#include <iostream>
 
 #include "Layer.h"
 #include "Activation.h"
@@ -31,12 +32,12 @@ namespace neural_autodiff {
 
         NodePtr forward(NodePtr input) {
             NodePtr current = input;
-            for (size_t i = 0; i < layers_.size(); ++i) {
+            for (int i = 0; i < layers_.size(); ++i) {
                 current = layers_[i]->forward(current);
-
-                if (activations_[i]) {
-                    current = activations_[i](current);
-                }
+                std::cout <<"In Dense, forward\n";
+                // if (activations_[i]) {
+                //     current = activations_[i](current);
+                // }
             }
             return current;
         }

@@ -1,4 +1,6 @@
 #include "Layer.h"
+
+#include <iostream>
 #include <stdexcept>
 
 namespace neural_autodiff {
@@ -32,7 +34,7 @@ namespace neural_autodiff {
         // Y = WX + b
         NodePtr output = Node::matmul(weights_, input);
         output = Node::add(output, bias_);
-
+        std::cout << "In layer " << output->value_.rows << " "<<output->value_.rows <<std::endl;
         return output;
     }
 
