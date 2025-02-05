@@ -18,4 +18,6 @@ add_executable(untitled main.cpp
         src/Gradient_Descent.cpp
         src/Dense.h
         src/Dense.cpp
+        src/Math_func.h
+        src/Math_func.cpp
 )

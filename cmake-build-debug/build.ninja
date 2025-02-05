@@ -97,6 +97,12 @@ build CMakeFiles/untitled.dir/src/Dense.cpp.o: CXX_COMPILER__untitled_unscanned_
   OBJECT_DIR = CMakeFiles/untitled.dir
   OBJECT_FILE_DIR = CMakeFiles/untitled.dir/src
 
+build CMakeFiles/untitled.dir/src/Math_func.cpp.o: CXX_COMPILER__untitled_unscanned_Debug /home/musfiq/CLionProjects/SPL-1/src/Math_func.cpp || cmake_object_order_depends_target_untitled
+  DEP_FILE = CMakeFiles/untitled.dir/src/Math_func.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/untitled.dir
+  OBJECT_FILE_DIR = CMakeFiles/untitled.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target untitled
@@ -105,7 +111,7 @@ build CMakeFiles/untitled.dir/src/Dense.cpp.o: CXX_COMPILER__untitled_unscanned_
 #############################################
 # Link the executable untitled
 
-build untitled: CXX_EXECUTABLE_LINKER__untitled_Debug CMakeFiles/untitled.dir/main.cpp.o CMakeFiles/untitled.dir/src/Matrix.cpp.o CMakeFiles/untitled.dir/src/Node.cpp.o CMakeFiles/untitled.dir/src/Layer.cpp.o CMakeFiles/untitled.dir/src/Activation.cpp.o CMakeFiles/untitled.dir/src/LossFunction.cpp.o CMakeFiles/untitled.dir/src/Gradient_Descent.cpp.o CMakeFiles/untitled.dir/src/Dense.cpp.o
+build untitled: CXX_EXECUTABLE_LINKER__untitled_Debug CMakeFiles/untitled.dir/main.cpp.o CMakeFiles/untitled.dir/src/Matrix.cpp.o CMakeFiles/untitled.dir/src/Node.cpp.o CMakeFiles/untitled.dir/src/Layer.cpp.o CMakeFiles/untitled.dir/src/Activation.cpp.o CMakeFiles/untitled.dir/src/LossFunction.cpp.o CMakeFiles/untitled.dir/src/Gradient_Descent.cpp.o CMakeFiles/untitled.dir/src/Dense.cpp.o CMakeFiles/untitled.dir/src/Math_func.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/untitled.dir
   POST_BUILD = :
