@@ -6,30 +6,125 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <fstream>
+#include <set>
 
 namespace neural_autodiff {
 
-class XORSolver {
-public:
+    std::set<char> vocab;
+    int matrix[26][27];
+    double probability[26][27];
+
+    std::vector<Matrix> training_input, training_output;
     Dense network;
-    std::vector<Matrix> training_inputs;
-    std::vector<Matrix> training_targets;
-    double learning_rate;
+    double learning_rate = 0.01;
 
-    void prepare_training_data() {
-        training_inputs = {
-            Matrix(2, 1, {0, 0}),
-            Matrix(2, 1, {0, 1}),
-            Matrix(2, 1, {1, 0}),
-            Matrix(2, 1, {1, 1})
-        };
+    std::vector<std::vector<char>> prediction(26);
 
-        training_targets = {
-            Matrix(1, 1, {0}),
-            Matrix(1, 1, {1}),
-            Matrix(1, 1, {1}),
-            Matrix(1, 1, {0})
-        };
+    int charToIndex(char c) {
+        if (c>='a' and c<='z') {
+            return c-'a';
+        }
+        if (c>='A' and c<='Z') {
+            return c-'A';
+        }
+
+        return 26;
+    }
+
+    void build_vocab(std::string str) {
+
+        for (int i = 0; i < str.size()-1; ++i) {
+
+            if (charToIndex(str[i]) > 25) {
+                std::cout << str[i]<<" ";
+                continue;
+            }
+            //std::cout << str[i]<<std::endl;
+            matrix[charToIndex(str[i])][charToIndex(str[i+1])] += 1;
+        }
+
+    }
+
+    void build_probabilities() {
+        for (int i = 0; i < 26; ++i) {
+            int sum = 0;
+            for (int j = 0; j < 27; ++j) {
+                sum += matrix[i][j];
+            }
+
+            for (int j = 0; j < 27; ++j) {
+                if (sum!=0)
+                    probability[i][j] = (double)matrix[i][j]/sum;
+                else
+                    probability[i][j] = 0;
+            }
+        }
+    }
+
+    std::vector<float> encode(char c) {
+        std::vector<float> result(27);
+        for (int i = 0; i < 27; ++i) {
+            result[i] = i==charToIndex(c) ? 1 : 0;
+        }
+
+        return result;
+    }
+
+    void file_read()
+    {
+        std::string str = "", temp = "";
+
+        std::ifstream read("/home/musfiq/CLionProjects/SPL-1/src/corpus.txt", std::ios::in | std::ios::binary);
+        std::string process_string = "";
+
+        if (!read.is_open())
+        {
+            std::cerr << "Error opening file" << std::endl;
+        }
+        while (std::getline(read, temp)) {
+            //std::cout << temp << std::endl;
+            for (char c: temp) {
+                if (std::isalpha(c))
+                {
+                    process_string.push_back(std::tolower(c));
+                }
+                else {
+                    process_string.push_back('.');
+                }
+
+            }
+            str += process_string;
+            temp = "";
+        }
+
+        build_vocab(process_string);
+        read.close();
+    }
+
+    void prepare_train_set() {
+
+        for (int i = 0; i < 26; ++i) {
+            std::vector<double> mat(27);
+
+            for (int j = 0; j < 27; ++j) {
+                mat[j] = i==j? 1.0 : 0.0;
+            }
+
+            training_input.push_back(Matrix(27, 1, mat));
+
+        }
+
+        for (int i = 0; i < 27; ++i) {
+            std::vector<double> mat(27);
+
+            for (int j = 0; j < 27; ++j) {
+                mat[j] = probability[i][j];
+            }
+
+            training_output.push_back(Matrix(27, 1, mat));
+        }
+
     }
 
     void backpropagate(NodePtr output, NodePtr target) {
@@ -59,27 +154,31 @@ public:
         }
     }
 
-public:
-    XORSolver(double lr = 0.1) : learning_rate(lr) {
-        // Configure network architecture
-        network.add_layer(2, 4, Activation::relu);
-        network.add_layer(4, 1);
-
-        prepare_training_data();
-    }
-
     void train(int epochs) {
-        for (int epoch = 0; epoch < epochs; ++epoch) {
-            double total_loss = 0.0;
 
-            for (int i = 0; i < training_inputs.size(); ++i) {
+        file_read();
+        build_probabilities();
+
+        prepare_train_set();
+
+        for (int i=0; i<26; ++i)
+        {
+            for (int j=0; j<27; ++j)
+            {
+                std::cout << training_output[i].at(j, 0) << " ";
+            }
+            std::cout << std::endl;
+        }
+
+        for (int epoch = 0; epoch < epochs; ++epoch) {
+
+            for (int i = 0; i < training_input.size(); ++i) {
                 // Forward pass
-                NodePtr input = Node::make_input(training_inputs[i]);
-                NodePtr target = Node::make_input(training_targets[i]);
+                NodePtr input = Node::make_input(training_input[i]);
+                NodePtr target = Node::make_input(training_output[i]);
                 NodePtr output = network.forward(input);
 
                 NodePtr loss = Loss::mse_loss(output, target);
-                total_loss += loss->value_.at(0, 0);
 
                 backpropagate(output, target);
 
@@ -87,31 +186,72 @@ public:
                 network.zero_grad();
             }
 
-            std::cout << "Epoch " << epoch<< " Average Loss: " << total_loss / training_inputs.size()
-            << std::endl;
+            //std::cout << "Epoch " << epoch<< " Average Loss: " << total_loss / training_input.size()
+            //<< std::endl;
+
 
         }
-    }
 
-    void test() {
-        std::cout << "XOR Test Results:\n";
-        for (int i = 0; i < training_inputs.size(); ++i) {
-            NodePtr input = Node::make_input(training_inputs[i]);
-            NodePtr output = network.forward(input);
-
-            std::cout << training_inputs[i].at(0,0) << " XOR "
-                      << training_inputs[i].at(1,0) << " = "
-                      << output->value_.at(0,0)
-                      << " (Target: " << training_targets[i].at(0,0) << ")\n";
+        std::cout << std::endl;
+        std::cout << std::endl;
+        for (int i=0; i<26; ++i)
+        {
+            for (int j=0; j<27; ++j)
+            {
+                std::cout << training_output[i].at(j, 0) << " ";
+            }
+            std::cout << std::endl;
         }
+
     }
+
+    void prepare_predict()
+    {
+
+        for (int i = 0; i < 26; ++i)
+        {
+            std::vector<char> predic;
+
+            for (int j = 0; j<27; ++j)
+            {
+                int k = training_output[i].at(j, 0)*100;
+                while (k--)
+                {
+                    predic.push_back(j<26?(j+'a'):'.');
+                }
+            }
+
+            while (predic.size()<100)
+            {
+                predic.push_back('.');
+            }
+
+            prediction[i] = predic;
+        }
+
+    }
+
+    std::string predict(char c)
+    {
+        srand(time(0));
+        std::string predicted_string = "";
+
+        while (c != '.')
+        {
+            predicted_string.push_back(c);
+            c = prediction[c-'a'][rand()%100];
+
+        }
+
+        return predicted_string;
+    }
+
 };
 
-}
-
 int main() {
-    neural_autodiff::XORSolver solver;
-    solver.train(20);
-    solver.test();
-    return 0;
+
+    neural_autodiff::train(5);
+    neural_autodiff::prepare_predict();
+
+    std::cout << neural_autodiff::predict('e') << std::endl;
 }

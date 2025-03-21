@@ -1,12 +1,14 @@
 # ninja log v6
-3217	3393	1738040361543965762	untitled	1f72ce92d2ffaa17
-7	1917	1738040358334037562	CMakeFiles/untitled.dir/src/Layer.cpp.o	849be309d9983a30
-1	713	1737917856372364635	CMakeFiles/untitled.dir/src/Gradient_Descent.cpp.o	fcc05c3fc883de42
-1917	3217	1738040360243994821	CMakeFiles/untitled.dir/src/Dense.cpp.o	f88f1f537f7faecf
-1	23	1738741155781994556	build.ninja	3f9684c0562dbe5d
-4	883	1737480318490751071	CMakeFiles/untitled.dir/src/Node.cpp.o	ed9104eff53b2cf2
-4	2837	1738040358331037629	CMakeFiles/untitled.dir/main.cpp.o	50ed8de933aa7623
-3	1069	1737480318489750996	CMakeFiles/untitled.dir/src/Matrix.cpp.o	d4eebac956c048dd
-12	2061	1738040358339037450	CMakeFiles/untitled.dir/src/LossFunction.cpp.o	2e3654057b071df2
-955	2095	1737480319441821958	CMakeFiles/untitled.dir/src/Activation.cpp.o	c5a7af89af8f0e
-2099	2564	1737480320584907222	CMakeFiles/untitled.dir/src/Backward.cpp.o	6fe651f549171ceb
+1074	1143	1742574747226407553	untitled	a32b055d3234d5e6
+620	1047	1742535023861294304	CMakeFiles/untitled.dir/src/Layer.cpp.o	849be309d9983a30
+1094	1104	1742535024335284580	CMakeFiles/untitled.dir/src/Gradient_Descent.cpp.o	fcc05c3fc883de42
+1104	1584	1742535024345284375	CMakeFiles/untitled.dir/src/Dense.cpp.o	f88f1f537f7faecf
+802	822	1742534466771648763	CMakeFiles/untitled.dir/src/Math_func.cpp.o	93b1dee7905c82fb
+1	23	1741422972381970673	build.ninja	3f9684c0562dbe5d
+3	620	1742535023244307016	CMakeFiles/untitled.dir/src/Node.cpp.o	ed9104eff53b2cf2
+1	1074	1742574746153426854	CMakeFiles/untitled.dir/main.cpp.o	50ed8de933aa7623
+3	695	1742535023244307016	CMakeFiles/untitled.dir/src/Matrix.cpp.o	d4eebac956c048dd
+1047	1700	1742535024288285542	CMakeFiles/untitled.dir/src/LossFunction.cpp.o	2e3654057b071df2
+697	1485	1742535023938292717	CMakeFiles/untitled.dir/src/Activation.cpp.o	c5a7af89af8f0e
+2	976	1742574765033088029	CMakeFiles/untitled.dir/main.cpp.o	50ed8de933aa7623
+976	1046	1742574766006070613	untitled	a32b055d3234d5e6

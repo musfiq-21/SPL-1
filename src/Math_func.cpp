@@ -5,7 +5,7 @@ namespace neural_autodiff {
         double result = 1.0;
         double term = 1.0;
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 21; i++) {
             term *= x/i;
             result += term;
         }
@@ -13,7 +13,6 @@ namespace neural_autodiff {
         return result;
 
     }
-
 
     double Math_func::sinh(double x) {
         return (exp(x) - exp(-x))/2;

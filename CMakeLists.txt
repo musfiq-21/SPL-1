@@ -14,8 +14,6 @@ add_executable(untitled main.cpp
         src/Activation.cpp
         src/LossFunction.h
         src/LossFunction.cpp
-        src/Gradient_Descent.h
-        src/Gradient_Descent.cpp
         src/Dense.h
         src/Dense.cpp
         src/Math_func.h
