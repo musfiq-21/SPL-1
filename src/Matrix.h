@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <vector>
 
 namespace neural_autodiff {
@@ -21,13 +22,16 @@ namespace neural_autodiff {
         }
 
         static Matrix multiply(const Matrix& a, const Matrix& b);
-        static Matrix transpose(const Matrix& a);
+        Matrix transpose();
         static Matrix add(const Matrix& a, const Matrix& b);
         static Matrix subtract(const Matrix& a, const Matrix& b);
 
         void xavier_init();
         void zeros();
         void ones();
+
+        void show();
+
 
     };
 

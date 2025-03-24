@@ -54,4 +54,62 @@ namespace neural_autodiff {
         return node;
     }
 
+    void Node::backward(const Matrix& grad_output) {
+        // Add incoming gradient to node's gradient
+        if (grad_.rows != grad_output.rows || grad_.cols != grad_output.cols) {
+            throw std::invalid_argument("Incompatible gradient dimensions");
+        }
+        grad_ = Matrix::add(grad_, grad_output);
+
+        // Base case: no inputs to propagate to
+        if (inputs_.empty()) {
+            return;
+        }
+
+        // Propagate gradients based on operation type
+        switch (op_type_) {
+            case OpType::MATMUL: {
+                if (inputs_.size() != 2) {
+                    throw std::runtime_error("MATMUL node must have exactly 2 inputs");
+                }
+
+                auto a = inputs_[0];
+                auto b = inputs_[1];
+
+                // Gradient w.r.t first input (a): grad_output * b^T
+                Matrix b_T = b->value_.transpose();
+                Matrix grad_a = Matrix::multiply(grad_output, b_T);
+                a->backward(grad_a);
+
+                // Gradient w.r.t second input (b): a^T * grad_output
+                Matrix a_T = a->value_.transpose();
+                Matrix grad_b = Matrix::multiply(a_T, grad_output);
+                b->backward(grad_b);
+                break;
+            }
+
+            case OpType::ADD: {
+                if (inputs_.size() != 2) {
+                    throw std::runtime_error("ADD node must have exactly 2 inputs");
+                }
+
+                // Addition passes gradient unchanged to both inputs
+                for (auto& input : inputs_) {
+                    input->backward(grad_output);
+                }
+                break;
+            }
+
+            case OpType::PARAMETER:
+            case OpType::INPUT:
+                // Leaf nodes - gradient accumulation stops here
+                break;
+
+            default:
+                throw std::runtime_error("Backward not implemented for this operation");
+        }
+    }
+
+
+
 }

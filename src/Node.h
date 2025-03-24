@@ -27,7 +27,7 @@ namespace neural_autodiff {
 
         static std::shared_ptr<Node> matmul(std::shared_ptr<Node> a, std::shared_ptr<Node> b);
         static std::shared_ptr<Node> add(std::shared_ptr<Node> a, std::shared_ptr<Node> b);
-
+        void backward(const Matrix& grad_output);
         OpType op_type() const { return op_type_; }
         const std::vector<std::shared_ptr<Node>>& inputs() const { return inputs_; }
 

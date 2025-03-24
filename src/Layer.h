@@ -15,6 +15,7 @@ namespace neural_autodiff {
         int out_features_;
 
         LinearLayer(int in_features, int out_features);
+        LinearLayer(int in_features, int out_features, const Matrix& weights, const Matrix& biases);
         NodePtr forward(NodePtr input);
         void backward(NodePtr output_gradient, double learning_rate);
 

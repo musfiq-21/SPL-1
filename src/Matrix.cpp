@@ -37,12 +37,12 @@ Matrix Matrix::multiply(const Matrix& a, const Matrix& b) {
 }
 
 
-Matrix Matrix::transpose(const Matrix& a) {
-    Matrix result(a.cols, a.rows);
+Matrix Matrix::transpose() {
+    Matrix result(cols, rows);
 
-    for (int i = 0; i < a.rows; ++i) {
-        for (int j = 0; j < a.cols; ++j) {
-            result.at(j, i) = a.at(i, j);
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            result.at(j, i) = at(i, j);
         }
     }
 
@@ -81,6 +81,19 @@ Matrix Matrix::subtract(const Matrix& a, const Matrix& b) {
     return result;
 }
 
+
+
+void Matrix::show()
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            std::cout << at(i, j) << " ";
+        }
+        std::cout << std::endl;
+    }
+}
 void Matrix::xavier_init() {
     std::random_device rd;
     std::mt19937 gen(rd());

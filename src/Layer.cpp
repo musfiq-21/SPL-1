@@ -16,6 +16,19 @@ namespace neural_autodiff {
         bias_ = Node::make_parameter(bias_matrix);
     }
 
+    LinearLayer::LinearLayer(int in_features, int out_features, const Matrix& weights, const  Matrix& biases)
+        : in_features_(in_features)
+        , out_features_(out_features) {
+
+        Matrix weight_matrix(out_features, in_features);
+        weight_matrix = weights;
+        weights_ = Node::make_parameter(weight_matrix);
+
+        Matrix bias_matrix(out_features, 1);
+        bias_matrix =  biases;
+        bias_ = Node::make_parameter(bias_matrix);
+    }
+
     NodePtr LinearLayer::forward(NodePtr input) {
         if (!input) {
             throw std::invalid_argument("Null input to linear layer");
@@ -72,10 +85,10 @@ namespace neural_autodiff {
              auto a = output->inputs_[0];
              auto b = output->inputs_[1];
 
-             Matrix grad_a  = Matrix::multiply(gradient, Matrix::transpose(b->value_));
+             Matrix grad_a  = Matrix::multiply(gradient, b->value_.transpose());
              backward(a, grad_a);
 
-             Matrix grad_b = Matrix::multiply(Matrix::transpose(a->value_), gradient);
+             Matrix grad_b = Matrix::multiply(a->value_.transpose(), gradient);
              backward(b, grad_b);
          }
 
